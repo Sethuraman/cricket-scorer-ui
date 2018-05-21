@@ -10,7 +10,7 @@ const configureStore = () => {
     createStore(rootReducer, applyMiddleware(thunk))
     : createStore(rootReducer, composeWithDevTools(
       applyMiddleware(thunk,
-        createLogger,),
+        createLogger),
     ))
 };
 
