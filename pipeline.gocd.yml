@@ -1,0 +1,40 @@
+format_version: 2
+environments:
+  ci:
+    pipelines:
+      - "team1UI"
+      
+pipelines:
+  "team1UI":
+    group: team1
+    materials:
+      ui:
+        git: "git@github.com:Sethuraman/bootcamp-just-cinemas-ui.git"
+    stages:
+      - test:
+          jobs:
+            test:
+              resources:
+                - node-and-java
+              tasks:
+                - script: |
+                    yarn install
+                    yarn run test_with_coverage
+      - build:
+          jobs:
+            build:
+              resources:
+                - node-and-java
+              tasks:
+                - script: |
+                    yarn install
+                    REACT_APP_API_URL="http://localhost:9090" yarn run build              
+
+      - deploy:
+           jobs:
+            deploy:
+              resources:
+                - node-and-java
+              tasks:
+                - script: |
+                    sh ./buildAndDeploy/deploy.sh team1-bootcamp-march2018
